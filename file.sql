@@ -2,7 +2,7 @@ CREATE TABLE workers (
   id SERIAL PRIMARY KEY,
   full_name VARCHAR(255) NOT NULL,
   department VARCHAR(255),
-  birthday DATE CHECK (birthday <= CURRENT_DATE - INTERVAL '18 years' AND birthday >= '1895-01-06'),
+  birthday DATE CHECK (birthday <= current_date - INTERVAL '18 years' AND birthday >= '1895-01-06'),
   salary NUMERIC(10, 2)
 );
 
@@ -55,7 +55,7 @@ VALUES
   ('Анна', 'Marketing', '1995-05-10', 950, 5, 'anna@example.com'),
   ('Іван', 'Sales', '1988-07-22', 1200, 10, 'ivan@example.com'),
   ('Олена', 'Engineering', '1992-11-15', 1100, 8, 'olena@example.com'),
-  ('Сергій', 'Customer Support', '1985-04-25', 1300, 12, 'serhiy@example.com'),
+  ('Сергій', 'Customer Support', '1996-04-25', 1000, 12, 'serhiy@example.com'),
   ('Дмитро', 'IT', '1989-09-10', 1400, 15, 'dmytro@example.com')
   RETURNING *;
 
@@ -128,6 +128,17 @@ SELECT * FROM employees
 WHERE full_name != 'Петро'
 ORDER BY id DESC
 LIMIT 3;
+
+SELECT * FROM employees
+WHERE extract(YEAR FROM age(current_date, birthday)) = 27 OR salary = 1000;
+
+SELECT * FROM employees
+WHERE extract(YEAR FROM age(current_date, birthday)) > 25
+AND extract(YEAR FROM age(current_date, birthday)) <= 28;
+
+SELECT * FROM employees
+WHERE (extract(YEAR FROM age(current_date, birthday)) BETWEEN 23 AND 27)
+OR (salary BETWEEN 400 AND 1000);
 
 /*
   DELETE
