@@ -7,7 +7,7 @@ CREATE TABLE workers (
 );
 
 ALTER TABLE workers
-ADD COLUMN vacation_days INT DEFAULT 0 CHECK (vacation_days >= 0);
+ADD COLUMN vacation_days SMALLINT DEFAULT 0 CHECK (vacation_days >= 0);
 
 ALTER TABLE workers
 ADD COLUMN email VARCHAR(255) UNIQUE;
